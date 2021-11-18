@@ -1,51 +1,80 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles'
-import {Card, Image } from 'semantic-ui-react'
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import {Rating } from 'semantic-ui-react'
 
-const useStyles = makeStyles((theme) => ({
-    movieCard:
-    {
-        width: '90%',
-        display: 'flex',
-        position: 'relative',
-        marginLeft: '5%',
-        marginRight: '5%',
-        marginBottom: '40px',
-        rowGap: '10px',
-        columnGap: '20px',
-        
-    }
+const useStyles =  makeStyles( (theme) => ({
+  movieDetails:{
+   font: "10px", 
+    width: "250px",
+    height: "auto",
+    marginLeft:'5%',
+      marginRight: '5%',
+    marginTop: '20px',
+    marginBottom: '40px',
+    rowGap: '1.5em',
+ },
+  
+  viewDetails: {
+    color: '#BF4E30',
+  }, 
+  
+  title:{
+    fontSize: '15px;',
+    color: 'black',
+  },
+ 
+  summary: {
+  fontSize: '12px',
+  color: 'black',
+},
+  
+    containerForGrid:{
+    display:"flex",
+},
+    moviePoster:{
+    height:"300px",
+        width: "200px", 
+    },
+    
+}));                                  
+                                       
+export const Movies = ({movies}) => {
+  const classes = useStyles();
+    console.log(movies)
+    return ( 
+        <div className = {classes.containerForGrid}>
+{  movies.map (movie => {
+            return (
+              <Card className={classes.movieDetails}>
+	        <CardContent>
+           <Typography className={classes.title}>
+          {movie.movieTitle}
+        </Typography>
+      
+        <img className ={classes.moviePoster} src= {"/images/"+ movie.moviePoster} />
+        <Typography className={classes.summary}>  {movie.movieSummary}  </Typography>
+      </CardContent>
+ <CardActions>
+        <Button size="small" color="orange" className={classes.viewDetails} onClick={() => {window.location=('/Details/'+ movie.movieId)}} >
+         View Details
+        </Button>
+<Typography> <Rating rating={movie.rating} maxRating={5} disabled />
+             </Typography>
+      </CardActions>
+     </Card>
 
-}));
-
-export const Movies = ({ movies }) => {
-     const classes = useStyles();
-	return (
-        <div className={classes.movieCard}>
-        { movies.map(movie => {
-            return (    
-                <div className = {classes.details}>
-                 <h1>{movie.movieTitle}</h1>  
-                 <p>{movie.movieSummary}</p>
-</div>
-
-)})} 
-    </div>
-)}
+)} )} </div>
+) }
 
 export default Movies 
 
-	const PopupExampleTrigger = () => (
-	      <Card>
-	        <Image src='https://react.semantic-ui.com/images/movies/totoro-horizontal.jpg' />
-	        <Card.Content>
-	          <Card.Header>My Neighbor Totoro</Card.Header>
-	          <Card.Description>
-	            Two sisters move to the country with their father in order to be
-	            closer to their hospitalized mother, and discover the surrounding
-	            trees are inhabited by magical spirits.
-	          </Card.Description>
-	        </Card.Content>
-	      </Card>
-	)
-export {PopupExampleTrigger}
+

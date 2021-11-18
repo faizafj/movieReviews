@@ -1,22 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
-import { Movies } from "./components/Movies";
+import { Route, BrowserRouter, Switch } from 'react-router-dom'
+import Home from './components/Home'
+import AddAMovie from './components/AddAMovie'
+import MenuBar from "./components/MenuBar";
+import Details from "./components/Details";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+function App() { 
+    return (
+        <BrowserRouter>
+            <MenuBar />
+            <Switch>
+                <Route exact path='/' component={ Home } />
+                <Route exact path="/AddAMovie" component={AddAMovie}/>
+                   <Route exact path="/Details/:id" component={Details}/> 
+                    <Route exact path="/Login" component={Login}/>
+                        <Route exact path="/SignUp" component={SignUp}/>
+            </Switch>
+        </BrowserRouter>
 
-function App() {
-	const [movies, setMovies] = useState([]);
+    );
 
-	useEffect(()=> {
-			fetch('https://prefer-mercury-5000.codio-box.uk/movies', { credentials: 'include' }).then(response =>response.json().then(data => {setMovies(data.movies);
-			})
-		);
-	},[]);
-
-	return (
-		<div className="App">
-			<Movies movies={movies}/>
-		</div>
-	);
 }
-
 export default App;
 
+
+//routes everything
