@@ -24,8 +24,5 @@ class Users (db.Model):
     __tablename__ = 'users'
     userId =  db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(15))
-    firstName = db.Column(db.String(30))
-    surname = db.Column(db.String(30))
     password = db.Column(db.String(20))
-    profilePic = db.Column(db.String(20))
     

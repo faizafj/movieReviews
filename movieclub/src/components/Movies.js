@@ -1,79 +1,92 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles'
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import {Rating} from 'semantic-ui-react'
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import {Rating } from 'semantic-ui-react'
 
 const useStyles =  makeStyles( (theme) => ({
-  movieDetails:{
-   font: "10px", 
-    width: "250px",
-    height: "auto",
-    marginLeft:'5%',
-      marginRight: '5%',
-    marginTop: '20px',
-    marginBottom: '40px',
-    rowGap: '1.5em',
+    movieDetails:{
+        font: "10px", 
+        width: "250px",
+        height: "500px",
+        border: "1px solid black",
+        borderRadius: '5px',
+        marginLeft:'25px',
+        marginRight: '10px',
+        marginTop: '20px',
+        marginBottom: '40px',
+        rowGap: '1.5em',
+        background: 'white',
+},
+    container: {
+        width: 'auto',
+        height: '300px',
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginLeft: 'auto',
+        rowGap: '5px',
+},
+    viewDetails: {
+        color: '#BF4E30',
+        background: 'None',
+        font: "10px", 
+        marginLeft: "25px",
+         "&:hover": {
+            color: 'black',
+            background:'white',
+        },
+}, 
+    title:{
+        fontSize: '15px;',
+        height: '30px',
+        color: 'black',
+        paddingTop: '5px',
+        textAlign: 'center',
  },
-  
-  viewDetails: {
-    color: '#BF4E30',
-  }, 
-  
-  title:{
-    fontSize: '15px;',
-    color: 'black',
-  },
- 
-  summary: {
-  fontSize: '12px',
-  color: 'black',
+    summary: {
+        fontSize: '12px',
+        color: 'black',
+        marginLeft: "5px",
+        marginRight: "5px",
+        textAlign: "justify",
+        height: "120px",
 },
-  
-    containerForGrid:{
-    display:"flex",
-},
+
     moviePoster:{
-    height:"300px",
-        width: "200px", 
+        height:"280px",
+        width: "200px",
+        marginLeft: "25px",
+        marginRight: "25px",
+        borderRadius: '5px', 
+        cursor: "pointer",
+},
+
+    
+    titleHeading:{
+        color: 'green',
+        fontSize: '20px',
     },
     
 }));                                  
                                        
 export const Movies = ({movies}) => {
   const classes = useStyles();
-    console.log(movies)
     return ( 
-        <div className = {classes.containerForGrid}>
-{  movies.map (movie => {
+        <div className = {classes.container}> 
+            {movies.map (movie => {
+             console.log(movie)
             return (
-              <Card className={classes.movieDetails}>
-	        <CardContent>
-           <Typography className={classes.title}>
-          {movie.movieTitle}
-        </Typography>
-      
-        <img className ={classes.moviePoster} src= {"/images/"+ movie.moviePoster} />
-        <Typography className={classes.summary}>  {movie.movieSummary}  </Typography>
-      </CardContent>
- <CardActions>
-        <Button size="small" color="orange" className={classes.viewDetails} onClick={() => {window.location=('/Details/'+ movie.movieId)}} >
-         View Details
-        </Button>
-<Typography> <Rating rating={movie.rating} maxRating={5} disabled />
-             </Typography>
-      </CardActions>
-     </Card>
-
-)} )} </div>
-) }
+               <div className={classes.movieDetails}>
+                  <p className={classes.title}> {movie.movieTitle} </p>
+                  <img className ={classes.moviePoster} src= {"/images/"+ movie.moviePoster} onClick={() => {window.location=('/Details/'+ movie.movieId)}}/>
+                  <p className={classes.summary}> {movie.movieSummary} </p>
+                  <div className={classes.reviews}>  
+                      <Button className={classes.viewDetails} onClick={() => {window.location=('/Details/'+ movie.movieId)}} > View Details </Button> 
+                      <Rating rating={movie.rating} maxRating={5} precision={0.5} disabled icon="ui large rating" />
+                  </div>
+               </div> 
+)})} 
+    </div>
+)}
 
 export default Movies 
 
