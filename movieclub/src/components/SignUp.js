@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; //imports the required imports (e.g a material ui button)
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
-const useStyles =  makeStyles( (theme) => ({
+const useStyles =  makeStyles( (theme) => ({ //This adds styling to each of the elements used below.
     usernameForm: {
         font: '16px',
         fontColor: 'pink',
@@ -92,18 +92,28 @@ const useStyles =  makeStyles( (theme) => ({
 },
 }));
 
-export default function SignUp () { 
+export default function SignUp () {
+    //sets the user states for each input
 	const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    //re-enter password double checks the user has typed the password in right
     const [reenterPassword, setreenterPassword] = useState("");
 	const classes = useStyles();  
     function onAccountSubmit(event) {
-        
+    /*Function is called when users click the submit button
+     * This checks if users have enetered a username and password and if not send an alert informing users to do so
+     * Then checks if the passwords both match up and if not then there's a an alert imofrming users to re-type the passwords.
+     * */  
         if (username === '' || password === ''){
              alert("Please enter username and password details")
         }else if(password !== reenterPassword){
                       alert("The passswords do not match, please re-enter.")
       }
+        /* Then the api is called to send the data to the database if everything is fine
+         * within this, it also checks to see if the username already exists and if so asks users to try a different username.
+         * But if everything is fine, it sets the userId into local storage (as it is rquired for many other componenets/functions)
+         * And then adds autherization token to it and sends the user an alert saying the account has been created and re-directs them to the homepage
+         * */
         const account = [username, password];
                         fetch('https://prefer-mercury-5000.codio-box.uk/SignUp', {
                             method: 'POST',
@@ -126,6 +136,13 @@ export default function SignUp () {
                          }}))
     event.preventDefault();
   }
+    /* Below is all the elements that are required to build the page
+     * The logo was used and has a hyperlink attacthed which sends the users to the homepage if clicked
+     * Then the form itself is created using three inputs and then two buttons below.
+     * One button takes the users back to the homepage if they decide to cancel
+     * and the other button calls the SignUp function and runs it
+     * There is also a hyperlink to the login page incase users already have an account and want to login
+     *  */
      return (
      
            <center>  

@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import { AppBar,Toolbar, CssBaseline, makeStyles,} from "@material-ui/core";
-import { Link } from "react-router-dom";
+import React, {useState} from 'react';  //imports required 
+import { AppBar,Toolbar, CssBaseline, makeStyles,} from "@material-ui/core"; //creates the menubar itself
+import { Link } from "react-router-dom"; //imports the link component 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({ //styling to customise the navigation bar
     navlinks: {
     marginLeft: "10px",
     display: "flex",
@@ -57,16 +57,21 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-function MenuBar() {
+function MenuBar() { //function to create the navigation bar.
     const classes = useStyles();
-    const [onHover, setOnHover] = useState(false);
-    const handleLogout = () => {
-        localStorage.removeItem('userid')
-        localStorage.removeItem('authorization')
-        window.location.href='/'
+    const [onHover, setOnHover] = useState(false); //set to 'off' so that the dropdown does not show up when it is not required 
+    const handleLogout = () => { //called when user presses log out
+        localStorage.removeItem('userid') //removes their userId
+        localStorage.removeItem('authorization') //removes auth 
+        window.location.href='/' //redirects to homepage
 };
-    const userId=localStorage.getItem('userid');
-    console.log (userId)
+    const userId=localStorage.getItem('userid'); 
+    
+    /* Bellow the links for the menu bar are defined
+     * There is a div created (inside the genres div) which creates a drop down.
+     * When it is hovered, the useState is set to true so it displays.
+     * Once the user leaves the hover or does not hover on it all then useState is set to false so it is hidden.
+     *  */
     return (
         <AppBar position="static" >
             <CssBaseline />
@@ -90,14 +95,14 @@ function MenuBar() {
                     </div> </React.Fragment>
                         )}
                     </div>
-                     {(() => {
+                     {(() => { // If not a user logged in then it shows login and sign up link 
                     if(userId==null){
                             return(
                                 <React.Fragment>
                                 <Link to="/Login" className={classes.link}>  Login </Link>
                                 <Link to="/SignUp" className={classes.link}> Sign Up </Link>
                                 </React.Fragment>
-                   )} else {
+                   )} else { //if a user is logged in they can add a movie, view their reviews and logout
                             return(
                                  <React.Fragment>
                                 <Link to="/AddAMovie" className={classes.link}>  Add A Movie </Link>

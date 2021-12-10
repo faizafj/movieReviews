@@ -12,6 +12,10 @@ theTitle:{
 },
   
 }))
+/* Below is the same function used to display the movies in Home.js. 
+ * However this time the data is sorted so the highest average rating is shown first. 
+ * This displays the top 20 highest rated records 
+ */
 
 function App() {
 	const [movies, setMovies] = useState([]);
@@ -28,7 +32,7 @@ function App() {
 		<div className="Movies">
            <center> <div>
             </div> </center>
-            <Movies movies={movies.slice().sort((a, b) => (b.rating > a.rating) ? 1 : -1).slice(0, 10)}/> 
+            <Movies movies={movies.slice().sort((a, b) => (b.rating > a.rating) ? 1 : -1).slice(0, 20)}/> 
         </div>
                 </div>
 	);     

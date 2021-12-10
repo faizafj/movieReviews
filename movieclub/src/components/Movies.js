@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'; //required imports
 import {makeStyles} from '@material-ui/core/styles'
 import {Rating} from 'semantic-ui-react'
 import Button from '@material-ui/core/Button';
 
-const useStyles =  makeStyles( (theme) => ({
+const useStyles =  makeStyles( (theme) => ({ //styling
     movieDetails:{
         font: "10px", 
         width: "250px",
@@ -66,18 +66,21 @@ const useStyles =  makeStyles( (theme) => ({
         fontSize: '20px',
     },
     
-}));                                  
-                                       
-export const Movies = ({movies}) => {
-  const classes = useStyles();
+}));    
+ /* This function uses the movie records from the Movies api to display the data.           
+It creates container for the whole div, this adds styling too such as paddings and margins etc.
+ for each movie record the layout is set as the following. */
+
+export const Movies = ({movies}) => { 
+  const classes = useStyles(); 
     return ( 
         <div className = {classes.container}> 
-            {movies.map (movie => {
+            {movies.map (movie => { 
              console.log(movie)
             return (
-               <div className={classes.movieDetails}>
-                  <p className={classes.title}> {movie.movieTitle} </p>
-                  <img className ={classes.moviePoster} src= {"/images/"+ movie.moviePoster} onClick={() => {window.location=('/Details/'+ movie.movieId)}}/>
+               <div className={classes.movieDetails}> 
+                  <p className={classes.title}> {movie.movieTitle} </p> 
+                  <img className ={classes.moviePoster} src= {"/images/"+ movie.moviePoster} onClick={() => {window.location=('/Details/'+ movie.movieId)}}/> 
                   <p className={classes.summary}> {movie.movieSummary} </p>
                   <div className={classes.reviews}>  
                       <Button className={classes.viewDetails} onClick={() => {window.location=('/Details/'+ movie.movieId)}} > View Details </Button> 
@@ -85,7 +88,7 @@ export const Movies = ({movies}) => {
                   </div>
                </div> 
 )})} 
-    </div>
+    </div>    
 )}
 
 export default Movies 

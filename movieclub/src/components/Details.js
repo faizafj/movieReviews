@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import '../App.css';
+import React, {useEffect, useState} from 'react'; //selects imports required
+import '../App.css'; //takes in the Apps.css as it requires the background to be black which was changed there.
 import { useParams } from "react-router-dom";
 import {makeStyles} from '@material-ui/core/styles'
 import {Rating} from 'semantic-ui-react'
 import Button from '@material-ui/core/Button';
 import { Reviews } from "./Reviews";
-import Tooltip from '@material-ui/core/Tooltip';
-import AnchorLink from 'react-anchor-link-smooth-scroll'
+import Tooltip from '@material-ui/core/Tooltip'; //tooltip used for extra guidance. 
 
-const useStyles =  makeStyles( (theme) => ({
+const useStyles =  makeStyles( (theme) => ({ //styling for elements
     movieDetails:{
         font: "10px", 
         width: "80%",
@@ -148,18 +147,18 @@ const useStyles =  makeStyles( (theme) => ({
 }));                   
 
 
-function Details() {
-    const{id} = useParams();
-    const classes = useStyles(); 
-    const [movies, setMovies] = useState([]);
+function Details() { 
+    const{id} = useParams(); //useParams finds the movieId to know which movie details to show.
+    const classes = useStyles();  //adds styling by referring to classes.
+    const [movies, setMovies] = useState([]); //sets the use states for each element
     const [reviews, setReviews] = useState([]);
     const [description, setDescription] = useState('');    
-    const [stars, setStars] = useState('1');
-    const userId=localStorage.getItem('userid')
+    const [stars, setStars] = useState('1'); //use state sets to be integer
+    const userId=localStorage.getItem('userid') //gets userId from local storage
 
     
-    function submitReview (event) {
-        const reviewInfo = [id, userId, description, stars];
+    function submitReview (event) { //adds a review when button clicked
+        const reviewInfo = [id, userId, description, stars]; //all the information required (users enter description and stars themseleves)
               fetch('https://prefer-mercury-5000.codio-box.uk/addReview', {
                         method: 'POST',
                         credentials: 'include',
@@ -168,12 +167,12 @@ function Details() {
                         },
                             body: JSON.stringify(reviewInfo),
                     }).then(response =>response.json().then(data => {
-                      window.location.reload()
+                      window.location.reload() //refreshes the page when it is done
                   }))
     event.preventDefault();
     }    
 
-	useEffect(()=> {
+	useEffect(()=> { //fetches the details for the movie
 			fetch('https://prefer-mercury-5000.codio-box.uk/Details', { 
                 method: "POST", 
                 credentials: 'include', 
@@ -182,8 +181,7 @@ function Details() {
                 .then(response =>response.json().then(data => {setMovies(data.detailsList); setReviews(data.reviewsList);
 			})
 		);
-	},[id]);
-    console.log(reviews)
+	},[id]); //uses the movieId
     return ( 
       <center>  <div className = {classes.container}> 
             {movies.map (movie => {
@@ -204,7 +202,7 @@ function Details() {
                       </div>
 
                      {(() => {
-                    if(userId!=null){
+                    if(userId!=null){ /* If a userId exists then they are shown a form to add their own review */
                             return(
                                 <React.Fragment>
                                 <div className={classes.sectionThree}>
@@ -234,7 +232,7 @@ function Details() {
 )})}
         <center> 
             <div>
-                 <Reviews reviews = {reviews}/>
+                 <Reviews reviews = {reviews}/> 
             </div> 
         </center>
     </div> 

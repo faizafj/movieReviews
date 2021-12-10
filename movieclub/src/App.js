@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'; //all the required imports to use in the react app. 
 import './App.css';
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
-import Home from './components/Home'
+import Home from './components/Home' //imports all the component functions from each javascript page
 import AddAMovie from './components/AddAMovie'
 import MenuBar from "./components/MenuBar";
 import Details from "./components/Details";
@@ -11,7 +11,7 @@ import Trending from "./components/Trending";
 import Genres from "./components/Genres";
 import MyReviews from "./components/MyReviews";
 import Reviews from "./components/Reviews";
-function App() { 
+function App() {  //used to route the pages and adds the hyperlink to the menu bar so it knows where to direct users
     return (
         <BrowserRouter>
             <MenuBar />

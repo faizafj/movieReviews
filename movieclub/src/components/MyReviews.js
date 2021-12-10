@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'; //imports required
 import '../App.css';
 import {makeStyles} from '@material-ui/core/styles'
 import {Rating} from 'semantic-ui-react'
 import Button from '@material-ui/core/Button';
 
-const useStyles =  makeStyles( (theme) => ({
+const useStyles =  makeStyles( (theme) => ({ //adds styling to elements
     movieDetails:{
         font: "10px", 
         width: "250px",
@@ -97,11 +97,11 @@ profilePic:{
     },
 })); 
 
-function MyReviews() {
-	const [reviews, setReviews] = useState([]);
+function MyReviews() { //function used to display user reviews
+	const [reviews, setReviews] = useState([]); //use states to fetch required info
     const [users, setUsers] = useState([]);
-    const userID=localStorage.getItem('userid');
-	useEffect(()=> {
+    const userID=localStorage.getItem('userid'); //gets userId so we know which user reviews to fetch and display.
+	useEffect(()=> { //myReviews API sends data based on that user.
 			fetch('https://prefer-mercury-5000.codio-box.uk/MyReviews', { 
                     credentials: 'include',
                     method: 'POST',
@@ -111,11 +111,15 @@ function MyReviews() {
             }).then(response =>response.json().then(data => {setReviews(data.MyReviews); setUsers(data.Users[0]);
 			})
 		);
-	},[userID]);
+	},[userID]); //knows which userID to use
     console.log(users)
     const classes = useStyles();
-    const lenMyReviews = reviews.length
-               
+    const lenMyReviews = reviews.length //counts how many reviews there are (displays to user the number of reviews they have made)
+         /*Create the features of the page including adding a profile image which is set to a default image.
+          * Then shows the user all their reviews in the style of the movie Cards which is used in other pages.
+          * Only shows the title, image, their description of the review and the rating they have them. 
+          * A button to take user to the review is available too so they can delete the view when on the details page. 
+          *  */     
 	return (
         <div className= {classes.profileContainer}>             
             <center> 

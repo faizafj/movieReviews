@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react'; //All the imports required for this page.
 import '../App.css';
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button';
@@ -9,9 +9,8 @@ import { createMuiTheme } from "@material-ui/core";
 import { ThemeProvider } from "@material-ui/styles";
 import Tooltip from '@material-ui/core/Tooltip';
 
-const materialTheme = createMuiTheme({
-  overrides: {
-      
+const materialTheme = createMuiTheme({ //Used to add styling to the calender date picker
+  overrides: {   
     MuiPickersToolbar: {
       toolbar: {
          color: '#BF4E30',
@@ -21,14 +20,6 @@ const materialTheme = createMuiTheme({
       MuiPickersHeader:{
       color: '#BF4E30',
 },
-      
-    MuiPickersCalendarHeader: {
-      switchHeader: {
-        // backgroundColor: lightBlue.A200,
-        // color: "white",
-      },
-    },
-      
     MuiPickersDay: {
       day: {
         color: '#BF4E30'
@@ -51,7 +42,7 @@ const materialTheme = createMuiTheme({
   },
 });
 
-const useStyles =  makeStyles( (theme) => ({
+const useStyles =  makeStyles( (theme) => ({ //used for styling of each element on the page.
     movieForm: {
         font: '16px',
         margin: '10px',
@@ -159,7 +150,7 @@ const useStyles =  makeStyles( (theme) => ({
 
 }));                         
 
-function file2Base64(file) {
+function file2Base64(file) { //used for turning the image into a base64 file, renaming it and saving it. 
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
     reader.onload = () => {
@@ -171,18 +162,18 @@ function file2Base64(file) {
 
 
 
-function AddAmovie() {  
-	const classes = useStyles();  
-    const [movieTitle, setMovieTitle] = useState('');
-	const [movieCast, setMovieCast] = useState("");   
+function AddAmovie() {   //The function used to run the page itself. This creates a form so the user can add a movie which is then pushed to the database through an API.
+	const classes = useStyles();   //this is used to create a class for each element when defined so it can styled. 
+    const [movieTitle, setMovieTitle] = useState(''); //use states for each element set to the before and after it is dealt with. 
+	const [movieCast, setMovieCast] = useState("");   //Each use state is defined as a string, a list or date to set data type. 
     const [movieDescription, setMovieDescription] = useState("");     
     const [movieSummary, setMovieSummary] = useState('');
     const [moviePoster, setMoviePoster] = useState('');
     const [movieReleaseDate, setMovieReleaseDate] = useState(new Date());
     const [genre, setMovieGenre] = useState('');
     const [movies, setMovies] = useState([]);
-    const userId=localStorage.getItem('userid')
-        useEffect(()=> {
+    const userId=localStorage.getItem('userid') //Gets the user id from local storage so it can be used for setting which user adds the movie. 
+        useEffect(()=> { //API to obtain movies table fields
             fetch('https://prefer-mercury-5000.codio-box.uk/addAMovie',
                   {credentials: 'include', 
                    method: 'POST', 
@@ -191,14 +182,13 @@ function AddAmovie() {
             })
         );
     },[movies]);
-    async function addMovies (event) {
-        const filesToUploads = document.querySelector('#ImageSelect').files
+    async function addMovies (event) { //function called when 'add movie' button is pressed
+        const filesToUploads = document.querySelector('#ImageSelect').files  //gets the image file once it has been added so that it can rename it 
         const file = filesToUploads[0]
         const fileName = file.name
-        const data = await file2Base64(file)
-        const movieInfo = [movieTitle, movieDescription, movieCast, movieSummary, data, movieReleaseDate, genre, userId, fileName];
-                      console.log (movieInfo)
-              fetch('https://prefer-mercury-5000.codio-box.uk/addAMovie', {
+        const data = await file2Base64(file) //uses base 64 to rename the file
+        const movieInfo = [movieTitle, movieDescription, movieCast, movieSummary, data, movieReleaseDate, genre, userId, fileName]; //sets each field which is required by the api and form. 
+              fetch('https://prefer-mercury-5000.codio-box.uk/addAMovie', { //calls the addAMovie api to push data when user submits. 
                         method: 'POST',
                         credentials: 'include',
                         headers: {
@@ -206,10 +196,20 @@ function AddAmovie() {
                         },
                             body: JSON.stringify(movieInfo),
                     }).then(response =>response.json().then(data => {
-                      window.location=('./')
+                      window.location=('./')  //redirects users to homepage when the movie is added
                   }))
     event.preventDefault();
     }
+    
+    
+    /*
+     * Creates the form used to input details.
+     * Adds image select button so users can browse their files to add a movie poster, this is set to only accept image files
+     * Each input value changes when a value is added to the set usestates
+     * There is also a material ui date picker added where users can select their own date using a calender.
+     * Select dropdown used for selecting genres, ensures data is 'clean' and can be filtered easily.
+     * The two buttons, one for submit and one to cancel and go back to homepage.
+     *  */
     return (  <center> <div className= {classes.container}>
                     <div className={classes.mainHeading}> 
                         <p> Add a movie: </p>
@@ -218,8 +218,8 @@ function AddAmovie() {
                     <div className={classes.headings}>
                         <p> Choose an Image</p>
                      </div>
-                    <div className= {classes.Poster}>
-                        <input id='ImageSelect' type="file"  accept=".png, .gif, .jpeg, .jpg" value={moviePoster} src="./images/{'moviePoster'}" onChange={(e) => setMoviePoster(e.target.value)}/>
+                    <div className= {classes.Poster}> 
+                        <input id='ImageSelect' type="file"  accept=".png, .gif, .jpeg, .jpg" value={moviePoster}  onChange={(e) => setMoviePoster(e.target.value)}/>
                     </div>
                     <div className={classes.headings}>
                         <p> Movie Title </p>
@@ -248,8 +248,8 @@ function AddAmovie() {
                     <div className={classes.headings}>
                         <p> Release Date </p>
                      </div>
-                    <div className= {classes.ReleaseDateContainer}>
-                        <ThemeProvider theme={materialTheme}>
+                    <div className= {classes.ReleaseDateContainer}> 
+                        <ThemeProvider theme={materialTheme}>  
                             <MuiPickersUtilsProvider utils={MomentUtils}> <DatePicker value={movieReleaseDate} format="yyyy/MM/dd" views={["year", "month", "date" ]}onChange={setMovieReleaseDate} />
                             </MuiPickersUtilsProvider>
                         </ThemeProvider>
